@@ -6,6 +6,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "ky": "^0.28.5",
     "vue": "^3.0.5",
     "vue-router": "4"
   },
