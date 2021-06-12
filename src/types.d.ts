@@ -10,4 +10,31 @@ interface ErrorResponse {
   data: HTTPError;
 }
 
-type Response<T> = SuccessResponse<T> | ErrorResponse;
+type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+interface Article {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: Tag[];
+  createdAt: Date;
+  updatedAt: Date;
+  favorited: boolean;
+  favoritesCount: number;
+  author: Profile;
+}
+
+interface ArticleEdge {
+  articles: Article[];
+  articlesCount: number;
+}
+
+type Tag = string;
+
+interface Profile {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+}

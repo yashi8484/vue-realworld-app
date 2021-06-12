@@ -1,7 +1,7 @@
 import ky from "ky";
 import type { ky as kyType } from "ky/distribution/types/ky";
 import type { Input } from "ky/distribution/types/options";
-import type { ApiResponse } from "../types";
+import type { ApiResponse, ArticleEdge } from "../types";
 
 let kyInstance: kyType | undefined = undefined;
 
@@ -15,7 +15,7 @@ const fetchUrl = <DataType>(url: Input) => {
   return client.get(url).json<DataType>();
 };
 
-export const getData = async <DataType>(
+const getData = async <DataType>(
   url: Input
 ): Promise<ApiResponse<DataType>> => {
   try {
@@ -30,4 +30,9 @@ export const getData = async <DataType>(
       data: error,
     };
   }
+};
+
+export const getArticles = async () => {
+  const data = await getData<ArticleEdge>("articles");
+  return data;
 };
