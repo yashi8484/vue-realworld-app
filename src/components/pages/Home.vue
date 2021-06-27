@@ -21,7 +21,11 @@
             </ul>
           </div>
 
-          <Article v-for="article in articles" :article="article" />
+          <div v-if="error">{{ error.message }}</div>
+          <div v-if="articles?.length">
+            <Article v-for="article in articles" :article="article" />
+          </div>
+          <div v-else>Loading articles...</div>
         </div>
 
         <div class="col-md-3">
@@ -46,29 +50,20 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
-import { ref } from "vue";
-import { ArticleEdge } from "../../types";
-import { getArticles } from "../../utils/restClient";
+import { useArticles } from "../../composables/useArticles";
 import Article from "./home/Article.vue";
 
 export default defineComponent({
   name: "Home",
   components: { Article },
   setup: () => {
-    const articles = ref<ArticleEdge['articles'] | undefined>(undefined);
+    const { articles, error: articlesError, load: loadArticles } = useArticles();
 
-    (async () => {
-      const response = await getArticles();
-
-      if (response.status === "error") {
-        articles.value = undefined;
-        return;
-      }
-      articles.value = response.data.articles;
-    })();
+    loadArticles();
 
     return {
       articles,
+      articlesError
     };
   },
 });
