@@ -1,7 +1,7 @@
 import ky from "ky";
 import type { ky as kyType } from "ky/distribution/types/ky";
 import type { Input } from "ky/distribution/types/options";
-import type { ApiResponse, ArticleEdge } from "../types";
+import type { ApiResponse, ArticleEdge, TagEdge } from "../types";
 
 let kyInstance: kyType | undefined = undefined;
 
@@ -34,5 +34,10 @@ const getData = async <DataType>(
 
 export const getArticles = async () => {
   const data = await getData<ArticleEdge>("articles");
+  return data;
+};
+
+export const getTags = async () => {
+  const data = await getData<TagEdge>("tags");
   return data;
 };

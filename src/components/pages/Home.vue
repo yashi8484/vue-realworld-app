@@ -21,7 +21,7 @@
             </ul>
           </div>
 
-          <div v-if="error">{{ error.message }}</div>
+          <div v-if="articlesError">{{ articlesError.message }}</div>
           <div v-if="articles?.length">
             <Article v-for="article in articles" :article="article" />
           </div>
@@ -31,17 +31,11 @@
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
-
-            <div class="tag-list">
-              <a href="" class="tag-pill tag-default">programming</a>
-              <a href="" class="tag-pill tag-default">javascript</a>
-              <a href="" class="tag-pill tag-default">emberjs</a>
-              <a href="" class="tag-pill tag-default">angularjs</a>
-              <a href="" class="tag-pill tag-default">react</a>
-              <a href="" class="tag-pill tag-default">mean</a>
-              <a href="" class="tag-pill tag-default">node</a>
-              <a href="" class="tag-pill tag-default">rails</a>
+            <div v-if="tagsError">{{ tagsError.message }}</div>
+            <div v-if="tags?.length" class="tag-list">
+              <a v-for="tag in tags" href="" class="tag-pill tag-default">{{ tag }}</a>
             </div>
+            <div v-else>Loading tags...</div>
           </div>
         </div>
       </div>
@@ -51,6 +45,7 @@
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
 import { useArticles } from "../../composables/useArticles";
+import { useTags } from "../../composables/useTags";
 import Article from "./home/Article.vue";
 
 export default defineComponent({
@@ -58,12 +53,16 @@ export default defineComponent({
   components: { Article },
   setup: () => {
     const { articles, error: articlesError, load: loadArticles } = useArticles();
+    const { tags, error: tagsError, load: loadTags } = useTags();
 
     loadArticles();
+    loadTags();
 
     return {
       articles,
-      articlesError
+      tags,
+      articlesError,
+      tagsError
     };
   },
 });

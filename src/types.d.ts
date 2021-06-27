@@ -32,6 +32,10 @@ interface ArticleEdge {
 
 type Tag = string;
 
+interface TagEdge {
+  tags: Tag[];
+}
+
 interface Profile {
   username: string;
   bio: string;
